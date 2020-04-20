@@ -1,0 +1,8 @@
+{
+  "name": "social-network-firebase",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:david262929/social-network-firebase.git",
+  "author": "David david262929",
+  "license": "MIT"
+}
