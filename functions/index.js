@@ -14,24 +14,7 @@ exports.getScreams = functions.https.onRequest((request, response) => {
             data.forEach((doc) => {
                 screams.push(doc.data());
             });
-            return res.json(screams);
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-});
-
-exports.getScreams = functions.https.onRequest((request, response) => {
-    admin
-        .firestore()
-        .collection('screams')
-        .get()
-        .then((data) => {
-            let screams = [];
-            data.forEach((doc) => {
-                screams.push(doc.data());
-            });
-            return res.json(screams);
+            return response.json(screams);
         })
         .catch((err) => {
             console.error(err);
@@ -53,7 +36,7 @@ exports.createScreams = functions.https.onRequest((request, response) => {
         .collection('screams')
         .add(newScream)
         .then((doc) => {
-            return resposne.json({message : `Document ${doc.id} created successfully.`});
+            return response.json({message : `Document ${doc.id} created successfully.`});
         })
         .catch((err) => {
             return response.status(500).json({ error: 'Something went wrong.' });
