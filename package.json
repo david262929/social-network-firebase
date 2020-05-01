@@ -4,5 +4,10 @@
   "main": "index.js",
   "repository": "git@github.com:david262929/social-network-firebase.git",
   "author": "David david262929",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "firebase-admin": "^8.11.0",
+    "firebase-functions": "^3.6.1"
+  }
 }

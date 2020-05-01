@@ -3,8 +3,10 @@ const admin = require('firebase-admin');
 
 admin.initializeApp();
 
+const express = require('express');
+const app = express();
 
-exports.getScreams = functions.https.onRequest((request, response) => {
+app.get('/screams', (req, res) => {
     admin
         .firestore()
         .collection('screams')
@@ -14,20 +16,17 @@ exports.getScreams = functions.https.onRequest((request, response) => {
             data.forEach((doc) => {
                 screams.push(doc.data());
             });
-            return response.json(screams);
+            return res.json(screams);
         })
         .catch((err) => {
             console.error(err);
         });
 });
 
-exports.createScreams = functions.https.onRequest((request, response) => {
-    if(request.method !== 'POST'){
-        return response.status(400).json({ error: 'Method not allowed.' });
-    }
+app.post('/screams', (req, res) => {
     const newScream = {
-        body: request.body.body,
-        userHandle: request.body.userHandle,
+        body: req.body.body,
+        userHandle: req.body.userHandle,
         createdAt: admin.firestore.Timestamp.fromDate(new Date()),
     };
 
@@ -36,9 +35,13 @@ exports.createScreams = functions.https.onRequest((request, response) => {
         .collection('screams')
         .add(newScream)
         .then((doc) => {
-            return response.json({message : `Document ${doc.id} created successfully.`});
+            return res.json({message : `Document ${doc.id} created successfully.`});
         })
         .catch((err) => {
-            return response.status(500).json({ error: 'Something went wrong.' });
+            return res.status(500).json({ error: 'Something went wrong.' });
         });
 });
+
+// https://baseurl.com/api/
+
+exports.api = functions.https.onRequest(app);
